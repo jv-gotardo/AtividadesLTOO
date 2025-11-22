@@ -1,0 +1,6 @@
+model\Navio.class
+com\mycompany\lpoo_sistema_gerenciamento_portuario\LPOO_Sistema_Gerenciamento_Portuario.class
+model\Carga.class
+model\Funcionario.class
+model\Berco.class
+model\OperacaoPortuaria.class
