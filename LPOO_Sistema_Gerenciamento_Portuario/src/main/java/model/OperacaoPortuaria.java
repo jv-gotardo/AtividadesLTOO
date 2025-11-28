@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 
@@ -12,7 +13,7 @@ import javax.persistence.*;
  * @author jvito
  */
 @Entity
-public class OperacaoPortuaria {
+public class OperacaoPortuaria implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "operacao_portuaria_id")
@@ -29,6 +30,10 @@ public class OperacaoPortuaria {
     @ManyToOne
     @JoinColumn(name = "operacao_portuaria_berco")
     private Berco berco;
+    
+    @ManyToOne
+    @JoinColumn(name = "operacao_portuaria_funcionario")
+    private Funcionario funcionario;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "operacao_portuaria_tipo")
@@ -43,6 +48,14 @@ public class OperacaoPortuaria {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
     }
 
     public Navio getNavio() {
