@@ -6,6 +6,7 @@ package model.dao;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
@@ -34,14 +35,16 @@ public class OperacaoPortuariaDAO extends PersistenciaJPA {
             return null;
         }
     }
-
-    public OperacaoPortuaria buscarPorId(Long id) {
+        
+    public Optional<OperacaoPortuaria> buscarPorId(Long id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(OperacaoPortuaria.class, id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            TypedQuery<OperacaoPortuaria> query = em.createQuery(
+                    "SELECT o FROM OperacaoPortuaria o WHERE o.id = :id", OperacaoPortuaria.class);
+            query.setParameter("id", id);
+            return query.getResultList().stream().findFirst();
+        } finally {
+            em.close();
         }
     }
 

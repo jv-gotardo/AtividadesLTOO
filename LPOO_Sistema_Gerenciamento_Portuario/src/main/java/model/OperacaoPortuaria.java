@@ -35,7 +35,7 @@ public class OperacaoPortuaria implements Serializable {
     @JoinColumn(name = "operacao_portuaria_funcionario")
     private Funcionario funcionario;
 
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     @Column(name = "operacao_portuaria_tipo")
     private String tipo; //TipoOperacao
 
@@ -93,6 +93,8 @@ public class OperacaoPortuaria implements Serializable {
     public void setDataHora(LocalDateTime dataHora) {
         this.dataHora = dataHora;
     }
-    
-    
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 }

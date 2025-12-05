@@ -82,5 +82,14 @@ public class Carga implements Serializable{
         this.operacoes = operacoes;
     }
 
+    public String exibirDados(){
+        String aux = "Carga cadastrada:\n";
+        aux += "Descrição: "+descricao+"\n";
+        aux += "Peso em Quilos: "+peso+"\n";
+        aux += "Tipo da Carga: "+tipo+"\n";
+        aux += "É perigosa: "+perigosa+"\n";
+
+        return aux;
+    }
 
 }

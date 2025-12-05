@@ -69,4 +69,14 @@ public class Funcionario implements Serializable {
     public void setTurno(int turno) {
         this.turno = turno;
     }
+    
+    public String exibirDados(){
+        String aux = "Funcionário cadastrado:\n";
+        aux += "Nome: "+nome+"\n";
+        aux += "Cargo: "+cargo+"\n";
+        aux += "Salário em R$: "+salario+"\n";
+        aux += "Turno: "+turno+"\n";
+
+        return aux;
+    }
 }

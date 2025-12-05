@@ -81,4 +81,14 @@ public class Berco implements Serializable{
     public void setOperacoes(List<OperacaoPortuaria> operacoes) {
         this.operacoes = operacoes;
     }
+    
+    public String exibirDados(){
+        String aux = "Berço cadastrado:\n";
+        aux += "Número: "+numero+"\n";
+        aux += "Ocupação: "+ocupado+"\n";
+        aux += "Tipo da Operação: "+tipoOperacao+"\n";
+        aux += "Comprimento Máximo em Metros: "+comprimentoMaximo+"\n";
+
+        return aux;
+    }
 }

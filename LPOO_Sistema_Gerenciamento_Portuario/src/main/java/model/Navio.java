@@ -92,4 +92,15 @@ public class Navio implements Serializable {
     public void setOperacoes(List<OperacaoPortuaria> operacoes) {
         this.operacoes = operacoes;
     }
+
+    public String exibirDados(){
+        String aux = "Navio cadastrado:\n";
+        aux += "Nome: "+nome+"\n";
+        aux += "IMO: "+imo+"\n";
+        aux += "Comprimento: "+comprimento+"\n";
+        aux += "Tonelagem: "+tonelagem+"\n";
+        aux += "Bandeira: "+bandeira+"\n";
+
+        return aux;
+    }
 }

@@ -8,7 +8,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>24</maven.compiler.release>
-        <exec.mainClass>com.mycompany.lpoo_sistema_gerenciamento_portuario.LPOO_Sistema_Gerenciamento_Portuario</exec.mainClass>
+        <!--<exec.mainClass>com.mycompany.lpoo_sistema_gerenciamento_portuario.LPOO_Sistema_Gerenciamento_Portuario</exec.mainClass> -->
     </properties>
 <dependencies>
         <dependency>
@@ -84,5 +84,10 @@
             <version>2.7.12</version>
             <scope>provided</scope>
         </dependency>
-    </dependencies>
+    <dependency>
+        <groupId>org.netbeans.external</groupId>
+        <artifactId>AbsoluteLayout</artifactId>
+      <version>RELEASE250</version>
+    </dependency>
+</dependencies>
 </project>

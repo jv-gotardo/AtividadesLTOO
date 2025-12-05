@@ -4,18 +4,23 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+import model.Funcionario;
+
 /**
  *
  * @author jvito
  */
 public class CadastroFuncionarioJD extends javax.swing.JDialog {
-
+    private Funcionario funcionario;
     /**
      * Creates new form CadastroFuncionario
      */
     public CadastroFuncionarioJD(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        funcionario = new Funcionario();
     }
 
     /**
@@ -73,8 +78,18 @@ public class CadastroFuncionarioJD extends javax.swing.JDialog {
         });
 
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -141,8 +156,25 @@ public class CadastroFuncionarioJD extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCargoActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_txtCargoActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        try{
+            this.funcionario.setNome(txtNome.getText());
+            this.funcionario.setCargo(txtCargo.getText());
+            this.funcionario.setSalario(Double.parseDouble(txtSalario.getText()));
+            this.funcionario.setTurno(Integer.parseInt(txtTurno.getText()));
+        } catch (NumberFormatException e1){
+            JOptionPane.showMessageDialog(rootPane, "Valores inválidos, informar numéricos em salário e turno");
+        } catch (Exception e2){
+            JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro inesperado.");
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,6 +217,18 @@ public class CadastroFuncionarioJD extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
+    }
+    
+    public Funcionario getFuncionario(){
+        return funcionario;
+    }
+    
+    public void setFuncionario(Funcionario funcionario){
+        this.funcionario = funcionario;
+        txtCargo.setText(funcionario.getCargo());
+        txtNome.setText(funcionario.getNome());
+        txtSalario.setText(""+funcionario.getSalario());
+        txtTurno.setText(""+funcionario.getTurno());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
