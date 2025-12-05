@@ -34,6 +34,7 @@ public class ListaOperacaoPortuariaJF extends javax.swing.JFrame {
         modelo.setNumRows(0);
         for (OperacaoPortuaria obj : dao.listarTodas()) {
             Object[] linha = {
+                obj.getId(),
                 obj.getNavio(),
                 obj.getCarga(),
                 obj.getBerco(),
@@ -207,11 +208,12 @@ public class ListaOperacaoPortuariaJF extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (tblOperacoes.getSelectedRow() != -1) {
-            OperacaoPortuaria obj_op = (OperacaoPortuaria) dao.buscarPorId((Long)
-                    tblOperacoes.getModel().getValueAt(tblOperacoes.getSelectedRow(), 0)).get();
+            int row = tblOperacoes.getSelectedRow();
+            Long id = (Long) tblOperacoes.getValueAt(row, 0);  
+            Optional<OperacaoPortuaria> optOperacao = dao.buscarPorId(id); 
 
             CadastroOperacaoPortuariaJD telaEdicao = new CadastroOperacaoPortuariaJD(this, rootPaneCheckingEnabled);
-            telaEdicao.setOperacao(obj_op);
+            telaEdicao.setOperacao(optOperacao.get());
             telaEdicao.setVisible(true);
 
                 try {
@@ -230,12 +232,12 @@ public class ListaOperacaoPortuariaJF extends javax.swing.JFrame {
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
         if (tblOperacoes.getSelectedRow() != -1) {
-            Object valor = tblOperacoes.getModel().getValueAt(tblOperacoes.getSelectedRow(), 0);
-            long idVenda = Long.parseLong(valor.toString());
+            int row = tblOperacoes.getSelectedRow();
+            Long id = (Long) tblOperacoes.getValueAt(row, 0);  
+            Optional<OperacaoPortuaria> optOperacao = dao.buscarPorId(id); 
 
-            Optional<OperacaoPortuaria> optOp = dao.buscarPorId(idVenda);
-            if (optOp.isPresent()) {
-                OperacaoPortuaria op = optOp.get();
+            if (optOperacao.isPresent()) {
+                OperacaoPortuaria op = optOperacao.get();
                 int oper = JOptionPane.showConfirmDialog(rootPane, "Deseja realmente remover esta operação?");
                 if (oper == JOptionPane.YES_OPTION) {
                     try {
@@ -257,10 +259,10 @@ public class ListaOperacaoPortuariaJF extends javax.swing.JFrame {
 
     private void btnInformacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacoesActionPerformed
         if (tblOperacoes.getSelectedRow() != -1) {
-            Object valor = tblOperacoes.getModel().getValueAt(tblOperacoes.getSelectedRow(), 3);
-            long idOperacao = Long.parseLong(valor.toString());
-            Optional<OperacaoPortuaria> optOperacao = dao.buscarPorId(idOperacao);
-
+            int row = tblOperacoes.getSelectedRow();
+            Long id = (Long) tblOperacoes.getValueAt(row, 0);  
+            Optional<OperacaoPortuaria> optOperacao = dao.buscarPorId(id); 
+   
             if (optOperacao.isPresent()) {
                 OperacaoPortuaria o = optOperacao.get();
                 String info = String.format("""

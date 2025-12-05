@@ -58,17 +58,17 @@ public class ListaNavioJF extends javax.swing.JFrame {
 
         tblNavio.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Nome", "IMO", "Comprimento", "Tonelagem", "Bandeira"
+                "ID", "Nome", "IMO", "Comprimento", "Tonelagem", "Bandeira"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.String.class
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -146,7 +146,7 @@ public class ListaNavioJF extends javax.swing.JFrame {
         try {
             dao.persist(novoNavio);
         } catch (Exception ex) {
-            System.out.println("Erro ao castrar o berço "+novoNavio.toString()+" \n Erro: "+ex);
+            System.out.println("Erro ao cadastrar o navio "+novoNavio.toString()+" \n Erro: "+ex);
         }
         loadTabelaNavio();
         // TODO add your handling code here:
@@ -154,8 +154,9 @@ public class ListaNavioJF extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (tblNavio.getSelectedRow() != -1) {
-            Navio obj = (Navio) tblNavio.getModel().
-                    getValueAt(tblNavio.getSelectedRow(), 0);
+            int row = tblNavio.getSelectedRow();
+            Long id = (Long) tblNavio.getValueAt(row, 0);  
+            Navio obj = dao.buscarPorId(id);  
 
             CadastroNavioJD telaEdicao = new CadastroNavioJD(this, rootPaneCheckingEnabled);
             telaEdicao.setNavio(obj);
@@ -167,46 +168,50 @@ public class ListaNavioJF extends javax.swing.JFrame {
                 dao.persist(telaEdicao.getNavio());
 
             } catch (Exception ex) {
-                System.err.println("Erro ao editar cliente: " + ex);
+                System.err.println("Erro ao editar navio: " + ex);
             }
             
             
             loadTabelaNavio();
 
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um cliente");
+            JOptionPane.showMessageDialog(rootPane, "Selecione um navio");
         }
 // TODO add your handling code here:
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
         if (tblNavio.getSelectedRow() != -1) {
-            Navio obj = (Navio) tblNavio.getModel().
-                    getValueAt(tblNavio.getSelectedRow(), 0);
+            int row = tblNavio.getSelectedRow();
+            Long id = (Long) tblNavio.getValueAt(row, 0);  
+            Navio obj = dao.buscarPorId(id);   
+            
             int op_remover = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja remover " + obj + "?");
             if (op_remover == JOptionPane.YES_OPTION) {
                 try {
                     dao.remover(obj);
-                    JOptionPane.showMessageDialog(rootPane, "Berço removido com sucesso... ");
+                    JOptionPane.showMessageDialog(rootPane, "Navio removido com sucesso... ");
                     loadTabelaNavio();
                 } catch (Exception ex) {
-                    System.err.println("Erro ao remover berço: " + ex);
+                    System.err.println("Erro ao remover navio: " + ex);
                 }
             }
 
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um berço");
+            JOptionPane.showMessageDialog(rootPane, "Selecione um navio");
         }
 // TODO add your handling code here:
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void btnInformacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacoesActionPerformed
         if (tblNavio.getSelectedRow() != -1) {
-            Navio obj = (Navio) tblNavio.getModel().
-                    getValueAt(tblNavio.getSelectedRow(), 0);
+            int row = tblNavio.getSelectedRow();
+            Long id = (Long) tblNavio.getValueAt(row, 0);  
+            Navio obj = dao.buscarPorId(id);  
+            
             JOptionPane.showMessageDialog(rootPane, obj.exibirDados());
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um berço");
+            JOptionPane.showMessageDialog(rootPane, "Selecione um navio");
     }
 
 
@@ -281,6 +286,7 @@ public class ListaNavioJF extends javax.swing.JFrame {
 
         for (Navio obj : dao.listarTodos()) {
             Object[] linha = {
+                obj.getId(),
                 obj.getNome(),
                 obj.getImo(),
                 obj.getComprimento(),

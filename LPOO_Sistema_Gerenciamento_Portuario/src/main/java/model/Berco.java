@@ -91,4 +91,11 @@ public class Berco implements Serializable{
 
         return aux;
     }
+
+    @Override
+    public String toString() {
+        return "numero=" + numero;
+    }
+    
+    
 }

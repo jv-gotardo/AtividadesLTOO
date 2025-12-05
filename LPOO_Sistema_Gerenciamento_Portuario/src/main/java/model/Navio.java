@@ -103,4 +103,9 @@ public class Navio implements Serializable {
 
         return aux;
     }
+    
+    @Override
+    public String toString() {
+        return "navio=" + imo;
+    }
 }

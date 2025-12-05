@@ -5,6 +5,7 @@
 package view;
 
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import model.Funcionario;
 import model.dao.FuncionarioDAO;
 
@@ -54,17 +55,17 @@ public class ListaFuncionarioJF extends javax.swing.JFrame {
 
         tblFuncionarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Nome", "Cargo", "Salário", "Turno"
+                "ID", "Nome", "Cargo", "Salário", "Turno"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -73,10 +74,10 @@ public class ListaFuncionarioJF extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblFuncionarios);
         if (tblFuncionarios.getColumnModel().getColumnCount() > 0) {
-            tblFuncionarios.getColumnModel().getColumn(0).setResizable(false);
             tblFuncionarios.getColumnModel().getColumn(1).setResizable(false);
             tblFuncionarios.getColumnModel().getColumn(2).setResizable(false);
             tblFuncionarios.getColumnModel().getColumn(3).setResizable(false);
+            tblFuncionarios.getColumnModel().getColumn(4).setResizable(false);
         }
 
         btnNovo.setText("Novo");
@@ -158,8 +159,9 @@ public class ListaFuncionarioJF extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (tblFuncionarios.getSelectedRow() != -1) {
-            Funcionario obj = (Funcionario) tblFuncionarios.getModel().
-                    getValueAt(tblFuncionarios.getSelectedRow(), 0);
+            int row = tblFuncionarios.getSelectedRow();
+            Long id = (Long) tblFuncionarios.getValueAt(row, 0);  
+            Funcionario obj = dao.buscarPorId(id);  
 
             CadastroFuncionarioJD telaEdicao = new CadastroFuncionarioJD(this, rootPaneCheckingEnabled);
             telaEdicao.setFuncionario(obj);
@@ -171,44 +173,48 @@ public class ListaFuncionarioJF extends javax.swing.JFrame {
                 dao.persist(telaEdicao.getFuncionario());
 
             } catch (Exception ex) {
-                System.err.println("Erro ao editar cliente: " + ex);
+                System.err.println("Erro ao editar funcionário: " + ex);
             }
             
             
             loadTabelaFuncionario();
 
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um cliente");
+            JOptionPane.showMessageDialog(rootPane, "Selecione um funcionário");
         }// TODO add your handling code here:
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
         if (tblFuncionarios.getSelectedRow() != -1) {
-            Funcionario obj = (Funcionario) tblFuncionarios.getModel().
-                    getValueAt(tblFuncionarios.getSelectedRow(), 0);
+            int row = tblFuncionarios.getSelectedRow();
+            Long id = (Long) tblFuncionarios.getValueAt(row, 0);  
+            Funcionario obj = dao.buscarPorId(id);  
+
             int op_remover = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja remover " + obj + "?");
             if (op_remover == JOptionPane.YES_OPTION) {
                 try {
                     dao.remover(obj);
-                    JOptionPane.showMessageDialog(rootPane, "Berço removido com sucesso... ");
+                    JOptionPane.showMessageDialog(rootPane, "Funcionário removido com sucesso... ");
                     loadTabelaFuncionario();
                 } catch (Exception ex) {
-                    System.err.println("Erro ao remover berço: " + ex);
+                    System.err.println("Erro ao remover Funcionário: " + ex);
                 }
             }
 
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um berço");
+            JOptionPane.showMessageDialog(rootPane, "Selecione um Funcionário");
         }// TODO add your handling code here:
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void btnInformacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacoesActionPerformed
         if (tblFuncionarios.getSelectedRow() != -1) {
-            Funcionario obj = (Funcionario) tblFuncionarios.getModel().
-                    getValueAt(tblFuncionarios.getSelectedRow(), 0);
+            int row = tblFuncionarios.getSelectedRow();
+            Long id = (Long) tblFuncionarios.getValueAt(row, 0);  
+            Funcionario obj = dao.buscarPorId(id);  
+
             JOptionPane.showMessageDialog(rootPane, obj.exibirDados());
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um berço");
+            JOptionPane.showMessageDialog(rootPane, "Selecione um Funcionário");
 }
 // TODO add your handling code here:
     }//GEN-LAST:event_btnInformacoesActionPerformed
@@ -262,6 +268,18 @@ public class ListaFuncionarioJF extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void loadTabelaFuncionario() {
-        
+        DefaultTableModel modelo = (DefaultTableModel) tblFuncionarios.getModel();
+        modelo.setNumRows(0);
+
+        for (Funcionario obj : dao.listarTodos()) {
+            Object[] linha = {
+                obj.getId(),
+                obj.getNome(),
+                obj.getCargo(),
+                obj.getSalario(),
+                obj.getTurno(),
+            };
+            modelo.addRow(linha);
+        }
     }
 }

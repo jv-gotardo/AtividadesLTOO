@@ -92,4 +92,9 @@ public class Carga implements Serializable{
         return aux;
     }
 
+    @Override
+    public String toString() {
+        return "carga=" + descricao;
+    }
+    
 }

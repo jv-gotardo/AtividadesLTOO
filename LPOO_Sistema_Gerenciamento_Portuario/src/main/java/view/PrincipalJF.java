@@ -122,7 +122,8 @@ public class PrincipalJF extends javax.swing.JFrame {
     }//GEN-LAST:event_miBercoActionPerformed
 
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
-        // TODO add your handling code here:
+        ListaOperacaoPortuariaJF telaOperacao = new ListaOperacaoPortuariaJF();
+        telaOperacao.setVisible(true);
     }//GEN-LAST:event_jMenu1ActionPerformed
 
     private void miCargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCargaActionPerformed
@@ -141,7 +142,8 @@ public class PrincipalJF extends javax.swing.JFrame {
     }//GEN-LAST:event_miNavioActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        // TODO add your handling code here:
+        ListaOperacaoPortuariaJF telaOperacao = new ListaOperacaoPortuariaJF();
+        telaOperacao.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**

@@ -62,17 +62,17 @@ public class ListaCargaJF extends javax.swing.JFrame {
 
         tblCarga.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Descrição", "Peso", "Tipo", "É Perigosa"
+                "ID", "Descrição", "Peso", "Tipo", "É Perigosa"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.Long.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Boolean.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -153,15 +153,16 @@ public class ListaCargaJF extends javax.swing.JFrame {
         try {
             dao.persist(novoCarga);
         } catch (Exception ex) {
-            System.out.println("Erro ao castrar o berço "+novoCarga.toString()+" \n Erro: "+ex);
+            System.out.println("Erro ao cadastrar a carga "+novoCarga.toString()+" \n Erro: "+ex);
         }
         loadTabelaCarga();
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (tblCarga.getSelectedRow() != -1) {
-            Carga obj = (Carga) tblCarga.getModel().
-                    getValueAt(tblCarga.getSelectedRow(), 0);
+            int row = tblCarga.getSelectedRow();
+            Long id = (Long) tblCarga.getValueAt(row, 0);  
+            Carga obj = dao.buscarPorId(id);                 
 
             CadastroCargaJD telaEdicao = new CadastroCargaJD(this, rootPaneCheckingEnabled);
             telaEdicao.setCarga(obj);
@@ -173,45 +174,48 @@ public class ListaCargaJF extends javax.swing.JFrame {
                 dao.persist(telaEdicao.getCarga());
 
             } catch (Exception ex) {
-                System.err.println("Erro ao editar cliente: " + ex);
+                System.err.println("Erro ao editar carga: " + ex);
             }
             
             
             loadTabelaCarga();
 
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um cliente");
+            JOptionPane.showMessageDialog(rootPane, "Selecione uma carga");
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
         if (tblCarga.getSelectedRow() != -1) {
-            Carga obj = (Carga) tblCarga.getModel().
-                    getValueAt(tblCarga.getSelectedRow(), 0);
+            int row = tblCarga.getSelectedRow();
+            Long id = (Long) tblCarga.getValueAt(row, 0);  
+            Carga obj = dao.buscarPorId(id);           
+            
             int op_remover = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja remover " + obj + "?");
             if (op_remover == JOptionPane.YES_OPTION) {
                 try {
                     dao.remover(obj);
-                    JOptionPane.showMessageDialog(rootPane, "Berço removido com sucesso... ");
+                    JOptionPane.showMessageDialog(rootPane, "Carga removido com sucesso... ");
                     loadTabelaCarga();
                 } catch (Exception ex) {
-                    System.err.println("Erro ao remover berço: " + ex);
+                    System.err.println("Erro ao remover carga: " + ex);
                 }
             }
 
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um berço");
+            JOptionPane.showMessageDialog(rootPane, "Selecione uma carga");
         }
 
     }//GEN-LAST:event_btnRemoverActionPerformed
 
     private void btnInformacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacoesActionPerformed
         if (tblCarga.getSelectedRow() != -1) {
-            Carga obj = (Carga) tblCarga.getModel().
-                    getValueAt(tblCarga.getSelectedRow(), 0);
+            int row = tblCarga.getSelectedRow();
+            Long id = (Long) tblCarga.getValueAt(row, 0);  
+            Carga obj = dao.buscarPorId(id);           
             JOptionPane.showMessageDialog(rootPane, obj.exibirDados());
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um berço");
+            JOptionPane.showMessageDialog(rootPane, "Selecione uma carga");
 }
     }//GEN-LAST:event_btnInformacoesActionPerformed
 
@@ -283,6 +287,7 @@ public class ListaCargaJF extends javax.swing.JFrame {
 
         for (Carga obj : dao.listarTodas()) {
             Object[] linha = {
+                obj.getId(),
                 obj.getDescricao(),
                 obj.getPeso(),
                 obj.getTipo(),

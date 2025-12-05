@@ -27,7 +27,7 @@ public class FuncionarioDAO extends PersistenciaJPA {
         }
     }
 
-    public Funcionario buscarPorId(String id) {
+    public Funcionario buscarPorId(Long id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Funcionario.class, id);

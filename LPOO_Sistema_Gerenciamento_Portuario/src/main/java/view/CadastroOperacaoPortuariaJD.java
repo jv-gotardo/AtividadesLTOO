@@ -130,8 +130,6 @@ public class CadastroOperacaoPortuariaJD extends javax.swing.JDialog {
             }
         });
 
-        comboNavio.setModel(null);
-
         jLabel2.setText("Tipo");
 
         jLabel3.setText("Data");

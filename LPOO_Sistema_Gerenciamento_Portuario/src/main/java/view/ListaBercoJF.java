@@ -58,11 +58,11 @@ public class ListaBercoJF extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Número", "Comprimento Máximo", "Ocupado", "Tipo de Operação"
+                "ID", "Número", "Comprimento Máximo", "Ocupado", "Tipo de Operação"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.Object.class
+                java.lang.Long.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -142,15 +142,16 @@ public class ListaBercoJF extends javax.swing.JFrame {
         try {
             dao.persist(novoBerco);
         } catch (Exception ex) {
-            System.out.println("Erro ao castrar o berço "+novoBerco.toString()+" \n Erro: "+ex);
+            System.out.println("Erro ao cadastrar o berço "+novoBerco.toString()+" \n Erro: "+ex);
         }
         loadTabelaBerco();
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (tblBerco.getSelectedRow() != -1) {
-            Berco obj = (Berco) tblBerco.getModel().
-                    getValueAt(tblBerco.getSelectedRow(), 0);
+            int row = tblBerco.getSelectedRow();
+            Long id = (Long) tblBerco.getValueAt(row, 0);  
+            Berco obj = dao.buscarPorId(id);  
 
             CadastroBercoJD telaEdicao = new CadastroBercoJD(this, rootPaneCheckingEnabled);
             telaEdicao.setBerco(obj);
@@ -162,21 +163,23 @@ public class ListaBercoJF extends javax.swing.JFrame {
                 dao.persist(telaEdicao.getBerco());
 
             } catch (Exception ex) {
-                System.err.println("Erro ao editar cliente: " + ex);
+                System.err.println("Erro ao editar berço: " + ex);
             }
             
             
             loadTabelaBerco();
 
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um cliente");
+            JOptionPane.showMessageDialog(rootPane, "Selecione um berço");
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
         if (tblBerco.getSelectedRow() != -1) {
-            Berco obj = (Berco) tblBerco.getModel().
-                    getValueAt(tblBerco.getSelectedRow(), 0);
+            int row = tblBerco.getSelectedRow();
+            Long id = (Long) tblBerco.getValueAt(row, 0);  
+            Berco obj = dao.buscarPorId(id);  
+            
             int op_remover = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja remover " + obj + "?");
             if (op_remover == JOptionPane.YES_OPTION) {
                 try {
@@ -195,8 +198,10 @@ public class ListaBercoJF extends javax.swing.JFrame {
 
     private void btnInformacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformacoesActionPerformed
        if (tblBerco.getSelectedRow() != -1) {
-            Berco obj = (Berco) tblBerco.getModel().
-                    getValueAt(tblBerco.getSelectedRow(), 0);
+            int row = tblBerco.getSelectedRow();
+            Long id = (Long) tblBerco.getValueAt(row, 0);  
+            Berco obj = dao.buscarPorId(id);  
+            
             JOptionPane.showMessageDialog(rootPane, obj.exibirDados());
         } else {
             JOptionPane.showMessageDialog(rootPane, "Selecione um berço");
@@ -260,6 +265,7 @@ public class ListaBercoJF extends javax.swing.JFrame {
 
         for (Berco obj : dao.listarTodos()) {
             Object[] linha = {
+                obj.getId(),
                 obj.getNumero(),
                 obj.getComprimentoMaximo(),
                 obj.isOcupado(),
